@@ -17,15 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Run a one-line script
+      - name: Create release document (Dev)
         shell: pwsh
         run: |
-          .\CreateJob.ps1 -IsFinal $false
+          .\CreateJob.ps1 -IsFinal false
         
   production:
     runs-on: ubuntu-latest
     environment: production
     needs: vga-dev
     steps:
-      - name: Run a one-line script
+      - name: Deploy to production
         run: echo Deployed to production!
