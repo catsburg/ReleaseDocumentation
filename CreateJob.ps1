@@ -26,8 +26,9 @@ $body = @{
 
 $JobRequestObject = @{}
 $JobRequestObject.pipelineType = "GithubWorkflow"
-$JobRequestObject.scope = "catsburg:ReleaseDocumentation"
+$JobRequestObject.scope = $Env:GITHUB_REPOSITORY
 $JobRequestObject.runId = $Env:GITHUB_RUN_ID
+$JobRequestObject.stageName = $Env:GITHUB_JOB
 $JobRequestObject.isFinal = $IsFinal.IsPresent
 
 $JobRequestJson = $(ConvertTo-Json -InputObject $JobRequestObject -Compress)
