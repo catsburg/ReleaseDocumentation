@@ -16,7 +16,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      
       - name: Create release document (Dev)
         shell: powershell
         run: .\CreateJob.ps1
@@ -34,7 +33,6 @@ jobs:
     needs: acceptance
     steps:
       - uses: actions/checkout@v2
-      
       - name: Create release document (Dev)
         shell: powershell
         run: .\CreateJob.ps1 -IsFinal
@@ -44,5 +42,9 @@ jobs:
     environment: production
     needs: vga-prod
     steps:
+      - uses: actions/checkout@v2
+      - name: Mark Production job
+        shell: pwsh
+        run: .\MarkEnvironment.ps1
       - name: Deploy to production
         run: echo Deployed to production!
