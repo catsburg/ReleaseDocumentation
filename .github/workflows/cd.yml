@@ -18,9 +18,8 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Create release document (Dev)
-        shell: pwsh
-        run: |
-          .\CreateJob.ps1 -IsFinal false
+        shell: powershell
+        run: .\CreateJob.ps1
         
   production:
     runs-on: ubuntu-latest
