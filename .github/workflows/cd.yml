@@ -40,8 +40,8 @@ jobs:
         
   production:
     runs-on: ubuntu-latest
-    environment: vga-prod
-    needs: acceptance
+    environment: production
+    needs: vga-prod
     steps:
       - name: Deploy to production
         run: echo Deployed to production!
