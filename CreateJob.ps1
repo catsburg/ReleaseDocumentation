@@ -1,3 +1,7 @@
+param (
+    [switch]$IsFinal
+)
+
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 $GrantType = "client_credentials"
@@ -24,9 +28,11 @@ $JobRequestObject = @{}
 $JobRequestObject.pipelineType = "GithubWorkflow"
 $JobRequestObject.scope = "catsburg:ReleaseDocumentation"
 $JobRequestObject.runId = $Env:GITHUB_RUN_ID
-$JobRequestObject.isFinal = $false
+$JobRequestObject.isFinal = $IsFinal.IsPresent
 
 $JobRequestJson = $(ConvertTo-Json -InputObject $JobRequestObject -Compress)
+Write-Host $JobRequestJson
+
 $JobRequestResponse = Invoke-WebRequest -Method 'Post' -Uri "https://releasedoc-api.azurewebsites.net/RunDocumentationJobs" -ContentType application/json -Headers $headers -Body $JobRequestJson
 
 $jobUri = $JobRequestResponse.Headers.Location
