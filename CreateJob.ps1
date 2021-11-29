@@ -29,7 +29,10 @@ $JobRequestObject.isFinal = $false
 $JobRequestJson = $(ConvertTo-Json -InputObject $JobRequestObject -Compress)
 $JobRequestResponse = Invoke-WebRequest -Method 'Post' -Uri "https://releasedoc-api.azurewebsites.net/RunDocumentationJobs" -ContentType application/json -Headers $headers -Body $JobRequestJson
 
-$JobStatusRequestResponse = Invoke-WebRequest -Uri $JobRequestResponse.Headers.Location -Method GET -Headers $headers -ContentType application/json
+$jobUri = $JobRequestResponse.Headers.Location
+write-host $jobUri
+
+$JobStatusRequestResponse = Invoke-WebRequest -Uri $jobUri -Method GET -Headers $headers -ContentType application/json
 $JobStatusRequestResponseJson  = $JobStatusRequestResponse.Content | Out-String | ConvertFrom-Json 
 $Status =  $JobStatusRequestResponseJson.status
 $CreatedRunId = $JobStatusRequestResponseJson.createdRunId
