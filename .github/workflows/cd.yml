@@ -31,6 +31,7 @@ jobs:
         
   vga-prod:
     runs-on: windows-latest
+    needs: acceptance
     steps:
       - uses: actions/checkout@v2
       
