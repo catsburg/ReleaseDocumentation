@@ -13,12 +13,13 @@ on:
 
 jobs:
   vga-dev:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       
       - name: Run a one-line script
-        run: echo Hello, world!
+        shell: pwsh
+        run: .\CreateJob.ps1 -IsFinal $false
         
   production:
     runs-on: ubuntu-latest
