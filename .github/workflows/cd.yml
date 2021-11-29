@@ -21,10 +21,27 @@ jobs:
         shell: powershell
         run: .\CreateJob.ps1
         
+  acceptance:
+    runs-on: ubuntu-latest
+    environment: acceptance
+    needs: vga-dev
+    steps:
+      - name: Deploy to production
+        run: echo Deployed to acceptance!     
+        
+  vga-prod:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Create release document (Dev)
+        shell: powershell
+        run: .\CreateJob.ps1 -IsFinal
+        
   production:
     runs-on: ubuntu-latest
-    environment: production
-    needs: vga-dev
+    environment: vga-prod
+    needs: acceptance
     steps:
       - name: Deploy to production
         run: echo Deployed to production!
