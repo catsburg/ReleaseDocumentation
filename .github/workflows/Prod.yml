@@ -4,16 +4,19 @@ name: Prod
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-
+  workflow_run:
+    workflows: ["Dev"]
+    branches: [main]
+    types:
+      - completed
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-jobs:       
+jobs:
+
   vga-prod:
     runs-on: windows-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
       - name: Create release document (Prod)
@@ -22,6 +25,7 @@ jobs:
         
   production:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment: production
     needs: vga-prod
     steps:
